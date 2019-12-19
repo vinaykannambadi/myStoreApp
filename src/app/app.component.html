@@ -1,5 +1,7 @@
 <app-top-bar></app-top-bar>
-<app-loader></app-loader>
+<div *ngIf="loading">
+  <app-loader></app-loader>
+</div>
 <div class="container">
   <router-outlet></router-outlet>
 </div>
