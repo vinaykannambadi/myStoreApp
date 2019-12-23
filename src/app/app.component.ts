@@ -30,10 +30,10 @@ export class AppComponent {
         case event instanceof NavigationEnd:
         case event instanceof NavigationCancel:
         case event instanceof NavigationError: {
-          setTimeout(() => {
+
             this.loading = false;
-          }, 1000);
-          break;
+
+            break;
         }
         default: {
           break;

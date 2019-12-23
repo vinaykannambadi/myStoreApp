@@ -1,5 +1,7 @@
-import { products } from './../products';
+import { Observable } from 'rxjs';
+import { ProductsService } from './../products.service';
 import { Component, OnInit } from '@angular/core';
+import { Product } from '../products';
 
 @Component({
   selector: 'app-product-list',
@@ -7,10 +9,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-  products = products;
-  constructor() {}
+  items: Product[] = [];
+  constructor(private productService: ProductsService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.productService.get_products().subscribe((res: any[]) => {
+      this.items = res;
+    });
+  }
 
   share() {
     window.alert('The product has been shared!');
