@@ -1,5 +1,3 @@
-import { LoaderService } from './../loader.service';
-import { map } from 'rxjs/operators';
 import { Observable, forkJoin, combineLatest } from 'rxjs';
 import { ProductsService } from './../products.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
@@ -15,7 +13,7 @@ import { Product } from '../products';
 export class ProductDetailsComponent implements OnInit {
   items;
   product;
-  @Output() isLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
+
 
   constructor(
     private route: ActivatedRoute,
@@ -24,7 +22,7 @@ export class ProductDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.isLoading.emit(true);
+
     combineLatest([
       this.productService.get_products(),
       this.route.paramMap
@@ -32,7 +30,7 @@ export class ProductDetailsComponent implements OnInit {
       // console.log(res);
       this.items = res;
       this.product = this.items[params.get('productId')];
-      this.isLoading.emit(false);
+
     });
   }
   addToCart(product) {

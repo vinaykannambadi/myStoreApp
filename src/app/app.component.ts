@@ -1,5 +1,4 @@
-import { LoaderService } from './loader.service';
-import { Component } from '@angular/core';
+import { Component, Renderer2, AfterViewInit } from '@angular/core';
 import {
   Router,
   // import as RouterEvent to avoid confusion with the DOM Event
@@ -15,13 +14,12 @@ import {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   title = 'myStoreApp';
   // Sets initial value to true to show loading spinner on first load
   loading = true;
 
-  constructor(private router: Router, private loaderService: LoaderService) {
-    this.loaderService.changeEmitted$.subscribe(res => (this.loading = res));
+  constructor(private router: Router, private renderer: Renderer2) {
     this.router.events.subscribe((event: RouterEvent) => {
       switch (true) {
         case event instanceof NavigationStart: {
@@ -41,5 +39,10 @@ export class AppComponent {
         }
       }
     });
+  }
+
+  ngAfterViewInit() {
+    const loader = this.renderer.selectRootElement('#loader');
+    loader.style.display = 'none';
   }
 }

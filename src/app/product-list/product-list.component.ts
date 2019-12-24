@@ -1,4 +1,3 @@
-import { LoaderService } from './../loader.service';
 import { ProductsService } from './../products.service';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Product } from '../products';
@@ -14,14 +13,14 @@ export class ProductListComponent implements OnInit {
 
   constructor(
     private productService: ProductsService,
-    private loaderService: LoaderService
+
   ) {}
 
   ngOnInit() {
-    this.loaderService.emitloading(true);
+
     this.productService.get_products().subscribe((res: any[]) => {
       this.items = res;
-      this.loaderService.emitloading(false);
+
     });
   }
 
