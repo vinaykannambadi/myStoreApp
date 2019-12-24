@@ -19,30 +19,20 @@ export class AppComponent implements AfterViewInit {
   // Sets initial value to true to show loading spinner on first load
   loading = true;
 
-  constructor(private router: Router, private renderer: Renderer2) {
-    this.router.events.subscribe((event: RouterEvent) => {
-      switch (true) {
-        case event instanceof NavigationStart: {
-          this.loading = true;
-          break;
-        }
-
-        case event instanceof NavigationEnd:
-        case event instanceof NavigationCancel:
-        case event instanceof NavigationError: {
-          this.loading = false;
-
-          break;
-        }
-        default: {
-          break;
-        }
-      }
-    });
+  constructor(private router: Router) {
+    this.loading = true;
   }
 
   ngAfterViewInit() {
-    const loader = this.renderer.selectRootElement('#loader');
-    loader.style.display = 'none';
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.loading = true;
+      } else if (
+        event instanceof NavigationEnd ||
+        event instanceof NavigationCancel
+      ) {
+        this.loading = false;
+      }
+    });
   }
 }
