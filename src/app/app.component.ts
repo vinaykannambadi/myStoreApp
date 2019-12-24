@@ -1,3 +1,4 @@
+import { LoaderService } from './loader.service';
 import { Component } from '@angular/core';
 import {
   Router,
@@ -19,7 +20,8 @@ export class AppComponent {
   // Sets initial value to true to show loading spinner on first load
   loading = true;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private loaderService: LoaderService) {
+    this.loaderService.changeEmitted$.subscribe(res => (this.loading = res));
     this.router.events.subscribe((event: RouterEvent) => {
       switch (true) {
         case event instanceof NavigationStart: {
@@ -30,10 +32,9 @@ export class AppComponent {
         case event instanceof NavigationEnd:
         case event instanceof NavigationCancel:
         case event instanceof NavigationError: {
+          this.loading = false;
 
-            this.loading = false;
-
-            break;
+          break;
         }
         default: {
           break;
